@@ -39,8 +39,19 @@ public class Main {
         //Set Path of Firefox driver
         System.setProperty("webdriver.gecko.driver", "C:\\WebDriver\\gecko\\bin\\geckodriver.exe");
         WebDriver driver = new FirefoxDriver(firefoxOptions);
+
         //load web page
-        driver.get(baseUrl);
+        int numPage = 2;
+        for(int i=1;i<=numPage;i++){
+            crawl(driver, i);
+        }
+
+        driver.close();
+
+    }
+
+    public static void crawl(WebDriver driver,int page){
+        driver.get(baseUrl+"?page="+page);
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         //scroll browser to trigger onload data
@@ -71,33 +82,5 @@ public class Main {
             }
 
         }
-
-        driver.findElement(By.xpath("//button[@data-unf='pagination-item' and text()='2']")).click();
-        js.executeScript("window.scrollBy(0,-1000)");
-
-//        System.out.println(driver.findElements(By.xpath("//div[@class='css-16vw0vn' and div[@class='css-11s9vse' and not(div[@class='css-nysll7'])]]")).size());
-
-        List<WebElement> result2 = new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='css-16vw0vn' and div[@class='css-11s9vse' and not(div[@class='css-nysll7'])]]"),65));
-        int idx2 =0;
-        for(WebElement webElement:result2){
-            System.out.print(++idx2);
-//
-            //wait until item picture fully loaded
-            Boolean imageResult = new WebDriverWait(driver, Duration.ofSeconds(30))
-                    .until(ExpectedConditions.attributeContains(webElement.findElement(By.tagName("img")),"class","success"));
-            String imageUrl =webElement.findElement(By.tagName("img")).getAttribute("src");
-            System.out.println(imageUrl);
-
-//            //scroll every 2 row of item
-            if(idx2%10==0){
-                js.executeScript("window.scrollBy(0,-1000)");
-            }
-//
-        }
-
-        driver.close();
-
-
     }
 }
