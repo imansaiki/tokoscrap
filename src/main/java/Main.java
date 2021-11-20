@@ -45,7 +45,7 @@ public class Main {
 
         //Firefox headless setup
         FirefoxOptions firefoxOptions = new FirefoxOptions();
-        //firefoxOptions.setHeadless(true);
+        firefoxOptions.setHeadless(true);
 
         //Set Path of Firefox driver
         System.setProperty("webdriver.gecko.driver", webDriverPath);
